@@ -1,8 +1,7 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import styled from 'styled-components';
 
-import AddTaskInput from './components/AddTaskInput';
-import { Add } from 'styled-icons/material/Add';
+import AddTodoInput from './components/AddTodoInput';
 
 import colour from './resources/styles/colours';
 
@@ -52,16 +51,16 @@ const TodoItem = styled.div`
 
 const App = () => {
   const [todo, setTodo] = useState([]);
-  const [taskCounter, setTaskCounter] = useState(0);
+  const [todoCounter, setTodoCounter] = useState(0);
 
   const Todo = ({ todo }) => <TodoItem>{todo.text}</TodoItem>;
 
   return (
     <AppContainer>
       <TodoListContainer>
-        {(taskCounter === 0) ? (<TaskTitle>You have no tasks</TaskTitle>) : 
-        ((taskCounter === 1) ? (<TaskTitle>You have {taskCounter} task</TaskTitle>) : 
-        (<TaskTitle>You have {taskCounter} tasks</TaskTitle>))}
+        {(todoCounter === 0) ? (<TaskTitle>You have no tasks</TaskTitle>) : 
+        ((todoCounter === 1) ? (<TaskTitle>You have {todoCounter} task</TaskTitle>) : 
+        (<TaskTitle>You have {todoCounter} tasks</TaskTitle>))}
         <TodoList>
           {todo.map((t, index) => (
             <Todo
@@ -71,7 +70,7 @@ const App = () => {
             />
           ))}
         </TodoList>
-        <AddTaskInput taskCounter={taskCounter} setTaskCounter={settaskCounter} />
+        <AddTodoInput todoCounter={todoCounter} setTodoCounter={setTodoCounter} />
       </TodoListContainer>
     </AppContainer>
   );

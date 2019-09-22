@@ -60,7 +60,7 @@ const AddIcon = styled(Add)`
   height: 2rem;
 `
 
-const AddTaskInput = ({ todoCounter, setTodoCounter }) => {
+const AddTodoInput = ({ todoCounter, setTodoCounter }) => {
   const [input, setInput] = useState("");
   const [barOpened, setBarOpened] = useState(false);
   const formRef = useRef();
@@ -111,4 +111,4 @@ const AddTaskInput = ({ todoCounter, setTodoCounter }) => {
   );
 }
 
-export default AddTaskInput;
+export default AddTodoInput;
