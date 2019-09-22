@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled, { css } from 'styled-components';
 
 import AddTodoInput from './components/AddTodoInput';
@@ -86,6 +86,10 @@ const BinIcon = styled(Bin)`
 const App = () => {
   const [todo, setTodo] = useState([]);
   const [todoCounter, setTodoCounter] = useState(0);
+
+  useEffect(() => { 
+    setTodoCounter(todo.filter(t => !todo.isCompleted).length) 
+  });
 
   const addTodo = text => {
     const newTodos = [...todo, { text }];
