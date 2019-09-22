@@ -23,7 +23,7 @@ const AppContainer = styled.div`
 const TodoListContainer = styled.div`
   width: 50%;
   height: 50%;
-  border: solid 4px ${colour.background}
+  border: solid 4px ${colour.border}
   background: ${colour.white}
   overflow-y: auto;
 `
@@ -33,6 +33,7 @@ const TaskTitle = styled.h1`
   display: flex;
   justify-content: center;
   color: ${colour.black};
+  padding: 0 0 1rem 0;
 `
 
 const TodoList = styled.ul`
@@ -42,20 +43,45 @@ const TodoItem = styled.div`
   display: flex;
   padding: 1rem;
   font-size: 1.5rem;
+  margin: 1rem 0 1rem 0;
+  border-bottom: 2px solid;
   ${props => props.complete && css`
     text-decoration: line-through;
+    background: ${colour.complement};
   `}
 `
 
+const TodoText = styled.h1`
+  display: flex;
+  flex: 1;
+  margin-left: 1rem;
+`
+
 const Button = styled.button`
-  color: white;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  color: ${colour.white};
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 const DoneIcon = styled(Done)`
   width: 2rem;
   height: 2rem;
   color: ${colour.black};
+  margin-left: auto;
+  margin: 0 1rem 0 1rem;
 `
+
+const BinIcon = styled(Bin)`
+  width: 2rem;
+  height: 2rem;
+  color: ${colour.black};
+  margin-left: auto;
+  margin: 0 1rem 0 1rem;
+`;
 
 const App = () => {
   const [todo, setTodo] = useState([]);
@@ -72,14 +98,25 @@ const App = () => {
     setTodo(newTodos);
   };
 
-  const Todo = ({ todo, index, completeTodo }) => {
+  const removeTodo = index => {
+    const newTodos = [...todo];
+    newTodos.splice(index, 1);
+    setTodo(newTodos);
+  };
+
+  const Todo = ({ todo, index, completeTodo, removeTodo }) => {
     return (
       <TodoItem
         complete={todo.isCompleted}
       >
-        {todo.text}
+        <TodoText>
+          {todo.text}
+        </TodoText>
         <Button type="submit" onClick={() => completeTodo(index)}>
           <DoneIcon />
+        </Button>
+        <Button type="submit" onClick={() => removeTodo(index)}>
+          <BinIcon />
         </Button>
       </TodoItem>
     );
@@ -99,6 +136,7 @@ const App = () => {
               index={index}
               todo={t}
               completeTodo={completeTodo}
+              removeTodo={removeTodo}
             />
           ))}
         </TodoList>

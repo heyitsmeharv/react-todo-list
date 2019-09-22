@@ -33,7 +33,7 @@ const Input = styled.input`
   width: 100%;
   margin-left: ${props => (props.barOpened ? "1rem" : "0rem")};
   border: none;
-  color: white;
+  color: ${colour.white};
   transition: all 300ms cubic-bezier(0.645, 0.045, 0.355, 1);
 
   &:focus,
@@ -41,7 +41,7 @@ const Input = styled.input`
     outline: none;
   }
   &::placeholder {
-    color: white;
+    color: ${colour.white};
   }
 `;
 
@@ -52,7 +52,7 @@ const Button = styled.button`
   background-color: transparent;
   border: none;
   outline: none;
-  color: white;
+  color: ${colour.white};
 `;
 
 const AddIcon = styled(Add)`
