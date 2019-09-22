@@ -86,12 +86,25 @@ const AddIcon = styled(Add)`
   height: 2rem;
 `
 
-function App() {
-  const [tasks, setTasks] = useState(0);
+const TodoList = styled.ul`
+
+`
+
+const TodoItem = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`
+
+const App = () => {
+  const [todo, setTodo] = useState([]);
+  const [todoCounter, setTodoCounter] = useState(0);
   const [input, setInput] = useState("");
   const [barOpened, setBarOpened] = useState(false);
   const formRef = useRef();
   const inputFocus = useRef();
+
+  const Todo = ({ todo }) => <TodoItem>{todo.text}</TodoItem>;
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClick);
@@ -107,6 +120,7 @@ function App() {
 
   const onFormSubmit = e => {
     e.preventDefault();
+    setTodoCounter(todoCounter + 1)
     setInput("");
     setBarOpened(false);
   };
@@ -114,9 +128,18 @@ function App() {
   return (
     <AppContainer>
       <TodoListContainer>
-        {(tasks === 0) ? (<TaskTitle>You have no tasks</TaskTitle>) : 
-        ((tasks === 1) ? (<TaskTitle>You have {tasks} task</TaskTitle>) : 
-        (<TaskTitle>You have {tasks} tasks</TaskTitle>))}
+        {(todoCounter === 0) ? (<TaskTitle>You have no tasks</TaskTitle>) : 
+        ((todoCounter === 1) ? (<TaskTitle>You have {todoCounter} task</TaskTitle>) : 
+        (<TaskTitle>You have {todoCounter} tasks</TaskTitle>))}
+        <TodoList>
+          {todo.map((t, index) => (
+            <Todo
+              key={index}
+              index={index}
+              todo={t}
+            />
+          ))}
+        </TodoList>
         <InputContainer>
           <Form
             barOpened={barOpened}
