@@ -30,6 +30,7 @@ const TodoListContainer = styled.div`
 
 const TaskTitle = styled.h1`
   font-size: 2.5rem;
+  font-weight: bold;
   display: flex;
   justify-content: center;
   color: ${colour.black};
@@ -61,7 +62,7 @@ const Button = styled.button`
   background-color: transparent;
   border: none;
   outline: none;
-  color: ${colour.white};
+  color: ${colour.black};
   :hover {
     cursor: pointer;
   }
@@ -87,9 +88,9 @@ const App = () => {
   const [todo, setTodo] = useState([]);
   const [todoCounter, setTodoCounter] = useState(0);
 
-  useEffect(() => { 
-    setTodoCounter(todo.filter(t => !todo.isCompleted).length) 
-  });
+  useEffect(() => {
+    setTodoCounter(todo.filter(t => !todo.isCompleted).length)
+  }, [todo]);
 
   const addTodo = text => {
     const newTodos = [...todo, { text }];
@@ -117,9 +118,11 @@ const App = () => {
           {todo.text}
         </TodoText>
         <Button type="submit" onClick={() => completeTodo(index)}>
+          Done
           <DoneIcon />
         </Button>
         <Button type="submit" onClick={() => removeTodo(index)}>
+          Delete
           <BinIcon />
         </Button>
       </TodoItem>
@@ -128,10 +131,10 @@ const App = () => {
 
   return (
     <AppContainer>
+      {(todoCounter === 0) ? (<TaskTitle>Your Todo List Is Empty</TaskTitle>) :
+        ((todoCounter === 1) ? (<TaskTitle>You Have {todoCounter} Task</TaskTitle>) :
+          (<TaskTitle>You Have {todoCounter} Tasks</TaskTitle>))}
       <TodoListContainer>
-        {(todoCounter === 0) ? (<TaskTitle>Your Todo List Is Empty</TaskTitle>) :
-          ((todoCounter === 1) ? (<TaskTitle>You Have {todoCounter} Task</TaskTitle>) :
-            (<TaskTitle>You Have {todoCounter} Tasks</TaskTitle>))}
         <AddTodoInput todoCounter={todoCounter} setTodoCounter={setTodoCounter} addTodo={addTodo} />
         <TodoList>
           {todo.map((t, index) => (

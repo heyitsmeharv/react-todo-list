@@ -9,6 +9,8 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+  margin-top: 1rem;
 `
 
 const Form = styled.form`
@@ -60,9 +62,16 @@ const AddIcon = styled(Add)`
   height: 2rem;
 `
 
+const ErrorMessage = styled.h1`
+  font-size: 2rem;
+  margin-top: 1rem;
+  color: red;
+`
+
 const AddTodoInput = ({ todoCounter, setTodoCounter, addTodo }) => {
   const [input, setInput] = useState("");
-  const [barOpened, setBarOpened] = useState(false);
+  const [barOpened, setBarOpened] = useState(true);
+  const [valid, setValid] = useState(true);
   const formRef = useRef();
   const inputFocus = useRef();
 
@@ -79,11 +88,17 @@ const AddTodoInput = ({ todoCounter, setTodoCounter, addTodo }) => {
   };
 
   const onFormSubmit = e => {
-    e.preventDefault();
-    addTodo(input);
-    setTodoCounter(todoCounter + 1);
-    setInput("");
-    setBarOpened(false);
+    if (input !== '') {
+      e.preventDefault();
+      setValid(true);
+      addTodo(input);
+      setTodoCounter(todoCounter + 1);
+      setInput("");
+      setBarOpened(false);
+    } else {
+      e.preventDefault();
+      setValid(false);
+    }
   };
 
   return (      
@@ -108,6 +123,9 @@ const AddTodoInput = ({ todoCounter, setTodoCounter, addTodo }) => {
           placeholder="Add a task"
         />
       </Form>
+      {!valid &&
+        <ErrorMessage>You can't submit an empty task</ErrorMessage>
+      }
     </Wrapper>    
   );
 }
