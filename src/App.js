@@ -22,6 +22,7 @@ const TodoListContainer = styled.div`
   height: 50%;
   border: solid 4px ${colour.background}
   background: ${colour.white}
+  overflow-y: auto;
 `
 
 const TaskTitle = styled.h1`
@@ -32,21 +33,11 @@ const TaskTitle = styled.h1`
 `
 
 const TodoList = styled.ul`
-  background: #e8e8e8;
-  border-radius: 4px;
-  padding: 5px;
 `
 
 const TodoItem = styled.div`
-  background: #fff;
-  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15);
-  padding: 3px 10px;
-  font-size: 12px;
-  margin-bottom: 6px;
-  border-radius: 3px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  padding: 1rem;
+  font-size: 1.5rem;
 `
 
 const App = () => {
@@ -55,12 +46,18 @@ const App = () => {
 
   const Todo = ({ todo }) => <TodoItem>{todo.text}</TodoItem>;
 
+  const addTodo = text => {
+    const newTodos = [...todo, { text }];
+    setTodo(newTodos);
+  };
+
   return (
     <AppContainer>
       <TodoListContainer>
         {(todoCounter === 0) ? (<TaskTitle>You have no tasks</TaskTitle>) : 
         ((todoCounter === 1) ? (<TaskTitle>You have {todoCounter} task</TaskTitle>) : 
         (<TaskTitle>You have {todoCounter} tasks</TaskTitle>))}
+        <AddTodoInput todoCounter={todoCounter} setTodoCounter={setTodoCounter} addTodo={addTodo} />
         <TodoList>
           {todo.map((t, index) => (
             <Todo
@@ -70,7 +67,6 @@ const App = () => {
             />
           ))}
         </TodoList>
-        <AddTodoInput todoCounter={todoCounter} setTodoCounter={setTodoCounter} />
       </TodoListContainer>
     </AppContainer>
   );

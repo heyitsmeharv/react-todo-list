@@ -60,7 +60,7 @@ const AddIcon = styled(Add)`
   height: 2rem;
 `
 
-const AddTodoInput = ({ todoCounter, setTodoCounter }) => {
+const AddTodoInput = ({ todoCounter, setTodoCounter, addTodo }) => {
   const [input, setInput] = useState("");
   const [barOpened, setBarOpened] = useState(false);
   const formRef = useRef();
@@ -80,6 +80,7 @@ const AddTodoInput = ({ todoCounter, setTodoCounter }) => {
 
   const onFormSubmit = e => {
     e.preventDefault();
+    addTodo(input);
     setTodoCounter(todoCounter + 1);
     setInput("");
     setBarOpened(false);
