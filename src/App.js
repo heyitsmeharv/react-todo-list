@@ -1,7 +1,10 @@
 import React, { useState } from "react";
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import AddTodoInput from './components/AddTodoInput';
+
+import { Bin } from 'styled-icons/icomoon/Bin';
+import { Done } from 'styled-icons/material/Done';
 
 import colour from './resources/styles/colours';
 
@@ -36,27 +39,58 @@ const TodoList = styled.ul`
 `
 
 const TodoItem = styled.div`
+  display: flex;
   padding: 1rem;
   font-size: 1.5rem;
+  ${props => props.complete && css`
+    text-decoration: line-through;
+  `}
+`
+
+const Button = styled.button`
+  color: white;
+`;
+
+const DoneIcon = styled(Done)`
+  width: 2rem;
+  height: 2rem;
+  color: ${colour.black};
 `
 
 const App = () => {
   const [todo, setTodo] = useState([]);
   const [todoCounter, setTodoCounter] = useState(0);
 
-  const Todo = ({ todo }) => <TodoItem>{todo.text}</TodoItem>;
-
   const addTodo = text => {
     const newTodos = [...todo, { text }];
     setTodo(newTodos);
   };
 
+  const completeTodo = index => {
+    const newTodos = [...todo];
+    newTodos[index].isCompleted = true;
+    setTodo(newTodos);
+  };
+
+  const Todo = ({ todo, index, completeTodo }) => {
+    return (
+      <TodoItem
+        complete={todo.isCompleted}
+      >
+        {todo.text}
+        <Button type="submit" onClick={() => completeTodo(index)}>
+          <DoneIcon />
+        </Button>
+      </TodoItem>
+    );
+  }
+
   return (
     <AppContainer>
       <TodoListContainer>
-        {(todoCounter === 0) ? (<TaskTitle>You have no tasks</TaskTitle>) : 
-        ((todoCounter === 1) ? (<TaskTitle>You have {todoCounter} task</TaskTitle>) : 
-        (<TaskTitle>You have {todoCounter} tasks</TaskTitle>))}
+        {(todoCounter === 0) ? (<TaskTitle>Your Todo List Is Empty</TaskTitle>) :
+          ((todoCounter === 1) ? (<TaskTitle>You Have {todoCounter} Task</TaskTitle>) :
+            (<TaskTitle>You Have {todoCounter} Tasks</TaskTitle>))}
         <AddTodoInput todoCounter={todoCounter} setTodoCounter={setTodoCounter} addTodo={addTodo} />
         <TodoList>
           {todo.map((t, index) => (
@@ -64,6 +98,7 @@ const App = () => {
               key={index}
               index={index}
               todo={t}
+              completeTodo={completeTodo}
             />
           ))}
         </TodoList>
